@@ -2,12 +2,12 @@
   const volumePercent = document.getElementById('volume');
   const volumeMeter = (document.getElementsByTagName('meter') || [])[0];
 
-  function setVolume(rate) {
+  const setVolume = (rate) => {
     volumePercent.value = Math.floor(rate * 100);
     volumeMeter.value = rate;
-  }
+  };
 
-  function analyze(analyser) {
+  const analyze = (analyser) => {
     const byteLength = analyser.frequencyBinCount;
     const maxVolume = byteLength * 255;
     const frequency = new Uint8Array(byteLength);
@@ -19,9 +19,9 @@
     const rate = volume / maxVolume;
     setVolume(rate);
     requestAnimationFrame(() => analyze(analyser));
-  }
+  };
 
-  function main() {
+  const main = () => {
     const audioContext = new AudioContext();
     const analyser = audioContext.createAnalyser();
     navigator.mediaDevices.getUserMedia({ audio: true })
@@ -30,7 +30,7 @@
         source.connect(analyser);
         analyze(analyser);
       });
-  }
+  };
 
   main();
 }
