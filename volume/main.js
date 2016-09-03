@@ -24,7 +24,6 @@
   function main() {
     const audioContext = new AudioContext();
     const analyser = audioContext.createAnalyser();
-    analyser.connect(audioContext.destination);
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then((stream) => {
         const source = audioContext.createMediaStreamSource(stream);
