@@ -1,6 +1,11 @@
 {
   const volumePercent = document.getElementById('volume');
-  const meter = (document.getElementsByTagName('meter') || [])[0];
+  const volumeMeter = (document.getElementsByTagName('meter') || [])[0];
+
+  function setVolume(rate) {
+    volumePercent.value = Math.floor(rate * 100);
+    volumeMeter.value = rate;
+  }
 
   function analyze(analyser) {
     const byteLength = analyser.frequencyBinCount;
@@ -12,8 +17,7 @@
       volume += frequency[i];
     }
     const rate = volume / maxVolume;
-    volumePercent.value = Math.floor(rate * 100);
-    meter.value = rate;
+    setVolume(rate);
     requestAnimationFrame(() => analyze(analyser));
   }
 
