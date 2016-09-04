@@ -19,3 +19,11 @@
 `input[type="file"]`の変更を検知して音声ファイルが指定ができるようにしています。音声ファイルの指定がされたら[`FileReader` interface](https://www.w3.org/TR/2015/WD-FileAPI-20150421/#APIASynch)を経由して`ArrayBuffer`の取得をして、`AudioContext.prototype.decodeAudioData` methodで`AudioBuffer`にデコードして`AudioContext`のソースとしています。
 
 そして`AudioContext.prototype.createGain` methodで作られた`GainNode`の値を変化させる`input[type="range"]`を作り、自由にゲインを弄れるようにしました。
+
+## [multi-source](/multi-source) ([demo](https://ykzts-sandbox.github.io/audio-context/multi-source))
+
+`AudioContext`で複数のソースを一つの出力先にまとめようとする試み。
+
+`input[type="file"]`の変更を検知して音声ファイルの指定ができるようにしています。複数の`input[type="file"]`に音声ファイルがすべて指定されるまで処理は走りません。
+
+複数の音声ファイルが全て指定されるとデコードを行い、それぞれの音声の出力先を共通のもの (`AudioContext.prototype.destination`) にしています。
