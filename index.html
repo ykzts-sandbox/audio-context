@@ -1,0 +1,24 @@
+<!doctype html>
+<meta charset=UTF-8>
+<title>audio-context</title>
+<div id=root></div>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js></script>
+<script>
+{
+  const root = document.getElementById('root');
+
+  const parseMarkdown = (text) => new Promise((resolve, reject) => {
+    marked(text, (error, html) =>
+      error instanceof Error ? reject(error) : resolve(html));
+  });
+
+  const main = () => {
+    fetch('README.md')
+      .then((request) => request.text())
+      .then(parseMarkdown)
+      .then((html) => root.innerHTML = html);
+  };
+
+  main();
+}
+</script>
