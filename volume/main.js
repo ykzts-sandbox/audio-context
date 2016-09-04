@@ -18,17 +18,21 @@
     }
     const rate = volume / maxVolume;
     setVolume(rate);
-    requestAnimationFrame(() => analyze(analyser));
   };
 
   const main = () => {
     const audioContext = new AudioContext();
+    const processor = audioContext.createScriptProcessor(1024, 1, 1);
     const analyser = audioContext.createAnalyser();
+    processor.addEventListener('audioprocess', (...args) => {
+      analyze(analyser);
+    });
+    processor.connect(audioContext.destination);
+    analyser.connect(processor);
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then((stream) => {
         const source = audioContext.createMediaStreamSource(stream);
         source.connect(analyser);
-        analyze(analyser);
       });
   };
 
