@@ -5,7 +5,30 @@
 <script src=https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js></script>
 <script>
 {
+  const repositoryUri = 'https://github.com/ykzts-sandbox/audio-context';
   const root = document.getElementById('root');
+
+  const MarkdownRenderer = class extends marked.Renderer {
+    createGitHubUri(path) {
+      if (!this.options.repositoryUri) {
+        return path;
+      }
+      return `${this.options.repositoryUri}/tree/master${path}`;
+    }
+
+    link(href, title, text) {
+      let uri;
+      if (href.startsWith('/')) {
+        uri = this.createGitHubUri(href);
+      }
+      return super.link(uri ? uri : href, title, text);
+    }
+  };
+
+  marked.setOptions({
+    renderer: new MarkdownRenderer(),
+    repositoryUri
+  });
 
   const parseMarkdown = (text) => new Promise((resolve, reject) => {
     marked(text, (error, html) =>
