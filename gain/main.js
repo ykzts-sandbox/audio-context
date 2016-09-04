@@ -5,7 +5,7 @@
       resolve(this.result);
     });
     fileReader.addEventListener('error', (...args) => {
-      reject(...args)
+      reject(...args);
     });
     fileReader.readAsArrayBuffer(file);
   });
